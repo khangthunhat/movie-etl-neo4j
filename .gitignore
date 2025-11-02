@@ -33,15 +33,18 @@ derby.log
 
 # =====================================================
 # DATA (KHÔNG COMMIT DỮ LIỆU THẬT)
-# Giữ cấu trúc nhưng không push file lớn lên git
+# Giữ cấu trúc thư mục bằng .gitkeep
 # =====================================================
-data/raw/**
-data/datalake/**
-data/warehouse/**
-data/neo4j/**
-!data/.keep            # Cho phép giữ thư mục rỗng
+data/raw/*
+data/datalake/*
+data/warehouse/*
+data/neo4j/*
 
-# Nếu bạn có file nhỏ demo muốn giữ -> bê vào data/sample
+# CHO PHÉP ĐẨY FILE .gitkeep
+!data/raw/.gitkeep
+!data/datalake/.gitkeep
+!data/warehouse/.gitkeep
+!data/neo4j/.gitkeep
 
 # =====================================================
 # DOCKER
