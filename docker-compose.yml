@@ -1,0 +1,35 @@
+version: '3.9'
+
+services:
+  neo4j:
+    image: neo4j:5-enterprise
+    container_name: neo4j_db
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    environment:
+      - NEO4J_AUTH=neo4j/mysecretpassword
+      - NEO4J_ACCEPT_LICENSE_AGREEMENT=yes
+      - NEO4J_PLUGINS=["apoc","graph-data-science"]
+      - NEO4J_dbms_default__database=movie
+    volumes:
+      - ./data/neo4j:/data
+      - ./neo4j/init:/docker-entrypoint/initial.d
+
+  jupyter:
+    build: ./docker/jupyter
+    container_name: pyspark_jupyter
+    ports:
+      - "8888:8888"
+      - "4040:4040"   # Spark UI
+    environment:
+      - SPARK_OPTS=--packages=org.neo4j.spark:neo4j-spark-connector_2.12:5.2.1-spark_3
+      - JUPYTER_TOKEN=
+      - JUPYTER_PASSWORD=
+    volumes:
+      - ./notebooks:/home/jovyan/work
+      - ./data:/home/jovyan/data
+    command: >
+      start-notebook.sh --NotebookApp.token='' --NotebookApp.password=''
+    
+     
